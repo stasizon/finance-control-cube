@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: cube
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        k8s-app: cube
+    spec:
+      containers:
+        - env:
+            - name: CUBEJS_API_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: CUBEJS_API_SECRET
+                  name: env
+            - name: CUBEJS_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: CUBEJS_DB_HOST
+                  name: env
+            - name: CUBEJS_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: CUBEJS_DB_NAME
+                  name: env
+            - name: CUBEJS_DB_PASS
+              valueFrom:
+                configMapKeyRef:
+                  key: CUBEJS_DB_PASS
+                  name: env
+            - name: CUBEJS_DB_TYPE
+              valueFrom:
+                configMapKeyRef:
+                  key: CUBEJS_DB_TYPE
+                  name: env
+            - name: CUBEJS_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: CUBEJS_DB_USER
+                  name: env
+            - name: CUBEJS_DEV_MODE
+              valueFrom:
+                configMapKeyRef:
+                  key: CUBEJS_DEV_MODE
+                  name: env
+            - name: CUBEJS_WEB_SOCKETS
+              valueFrom:
+                configMapKeyRef:
+                  key: CUBEJS_WEB_SOCKETS
+                  name: env
+          image: cubejs/cube:latest
+          name: cube
+          ports:
+            - containerPort: 4000
+            - containerPort: 3000
+          resources: { }
+          volumeMounts:
+            - mountPath: /cube/conf
+              name: config-volume
+            - mountPath: /cube/conf/schema
+              name: scheme-volume
+      restartPolicy: Always
+      volumes:
+        - name: config-volume
+          configMap:
+            name: cube-config
+        - name: scheme-volume
+          configMap:
+            name: scheme-config
+status: { }

@@ -1,0 +1,6 @@
+.env
+node_modules
+.eslintcache
+.idea
+k8s/env-configmap.yaml
+.cubestore

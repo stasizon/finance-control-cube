@@ -1,0 +1,4 @@
+resources:
+  - cube-deployment.yaml
+  - cube-service.yaml
+  - env-configmap.yaml

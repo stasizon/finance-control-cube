@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  cube:
+    image: cubejs/cube:latest
+    env_file: .env
+    volumes:
+      - ./schema:/cube/conf/schema
+    network_mode: host

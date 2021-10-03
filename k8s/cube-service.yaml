@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cube
+  labels:
+    k8s-app: cube
+spec:
+  type: LoadBalancer
+  selector:
+    k8s-app: cube
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: "4000"
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
+    - name: "3000"
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
